@@ -2,6 +2,9 @@
 // async function generateGallery() {
 //     let data = await fetch('http://localhost:5678/api/works');
 //     let jsonData = await data.json();
+
+// const { response } = require("express");
+
     
 //    return jsonData;
 // }
@@ -31,28 +34,65 @@
 // const jsonData = await data.json();
 
 // 
-async function fetchWorks () {
-    const works = await fetch('http://localhost:5678/api/works');
-    const jsonData = await works.json();
-    return await jsonData;
-}
+// async function fetchWorks () {
+//     const works = await fetch('http://localhost:5678/api/works');
+//     const jsonData = await works.json();
+//     return jsonData;
+// }
 
-async function generateWorks() { 
-    const works = await fetchWorks();
-    let html = '';
-    works.forEach(work => {
-        let content =  `<figure>
-                        <img src="${work.imageUrl}">
-                        <figcaption>${work.title}</figcaption>
-                        </figure>`;
+// async function generateWorks() { 
+//     const works = await fetchWorks();
+//     let htmlContent = '';
+//     works.forEach(work => {
+//         let data =  `<figure>
+//                         <img src="${work.imageUrl}">
+//                         <figcaption>${work.title}</figcaption>
+//                         </figure>`;
                         
-    html += content;
-})
-    const gallery = document.querySelector('.gallery');
-    gallery.innerHTML = html;
+//     htmlContent += data;
+// })
+//     const gallery = document.querySelector('.gallery');
+//     gallery.innerHTML = htmlContent;
 
+// }
+// generateWorks();
+const buttons = document.querySelectorAll('.btn')
+const btnAll = document.querySelector('.all');
+const btnObjects = document.querySelector('.objects');
+const btnApartments = document.querySelector('.apartments');
+const btnHotel = document.querySelector('.hotel');
+
+
+ function setSelected() {
+    buttons.forEach(button => {
+        button.classList.remove('selected');
+    });
+    
 }
-generateWorks();
+setSelected();
+
+fetch('http://localhost:5678/api/works')
+    .then(response => response.json())
+    .then(data => {
+             for(let i = 0; i < data.length; i++) {
+
+             console.log(data[i].categoryId)
+    }
+
+})
+
+        
+        
+    
+
+  
+
+        
+    
+
+
+ 
+
 
 /* categories : 
 liste des categories(id,name):
