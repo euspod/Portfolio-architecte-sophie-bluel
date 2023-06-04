@@ -141,6 +141,11 @@ li:hover {
 	margin:5px;
 	font-family: 'Syne';
 	font-size: 18px;
+	
+}
+
+.filters button:hover {
+	cursor: pointer;
 }
 
 .filters button.selected {
