@@ -1,27 +1,28 @@
 
 
                 /*afficher projets ---> */
+
+const gallery = document.querySelector('.gallery');
+
 let dataWorks = [];
 
 async function fetchWorks () {
     const works = await fetch('http://localhost:5678/api/works');
     const jsonData = await works.json();
     dataWorks = jsonData;
-    console.log('dataWorks', dataWorks);
-    return jsonData;
+    return dataWorks;
 }
 
 
 async function fetchCats () {
     const cats = await fetch('http://localhost:5678/api/categories');
     const jsonData = await cats.json();
-    console.log('dataCategories', jsonData);
     return jsonData;
 }
 fetchCats();
 
 
-async function generateWorks() { 
+ async function generateWorks() { 
     const works = await fetchWorks();
     let htmlContent = '';
     works.forEach(work => {
@@ -44,32 +45,28 @@ generateWorks();
 
                 /*génerer boutons ---> */
 
-
-                
-
-  async function generateButtons() {
-    let cats = await fetchCats();
-    
-    console.log('testing',cats);
-    for (category of cats) {    
-        let categ = new Set();
-        categ.add(category.name);
+let newArray =[];
+async function generateButtons() {
+    newArray = await fetchCats();
+    let newEntry = { "id": 0,
+                        "name": "Tous"
+                };
+    newArray.unshift(newEntry);
+    for (let i = 0; i <= newArray.length; i++) {
+        const button = document.createElement('button');
+        const filters = document.querySelector('.filters');
+        button.innerHTML = newArray[i].name;
+        button.setAttribute('id','idName');
+        button.id = newArray[i].name;
+        filters.appendChild(button);  
     }
-    const button = document.createElement('button');
-    const filters = document.querySelector('.filters');
-    button.innerHTML = category.name;
-    filters.appendChild(button);
-    console.log('test', category);
     
-     
 }
+ 
 generateButtons();
 
                 /* <--- génerer boutons */
 
-
-
-                
                 
                 
 
@@ -85,29 +82,27 @@ generateButtons();
 
 
     
-const buttons = document.getElementById('group');
-
+const buttons = document.getElementById('filters');
+console.log('buttons', buttons);
 
 let currentFilter = '';
 
 const buttonClicked = (e) => {
-    let value = e;
+    let value = e.target.id;
     filterWorks(value);
     console.log('value is', value);
 }
+
 buttons.addEventListener("click", buttonClicked);
 
 const filterWorks = (currentCat) => {
-    // vider la galerie
+    // gallery.innerHTML = '';
+    
     // trier le tableau dataWorks avec la bonne catégorie
     // afficher les works dans galerie
-    console.log('filterWorks', currentCat);
+    // console.log('filterWorks', currentCat);
  }
 
 
 
-
-
-const buttonValue = buttonClicked;
-console.log(currentFilter);
 
