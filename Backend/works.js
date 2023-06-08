@@ -9,9 +9,22 @@ let dataWorks = [];
 async function fetchWorks () {
     const works = await fetch('http://localhost:5678/api/works');
     const jsonData = await works.json();
-    dataWorks = jsonData;
-    return dataWorks;
+    // const result = buttonClicked();
+    // dataWorks = jsonData.filter( cat => cat.category.name === '');
+    // console.log('fetchWorks', result);
+    return jsonData;
 }
+fetchWorks();
+
+// const filterCat = async () => {
+//     const cworks = await fetchWorks();
+//     let result = cworks.filter( cat => cat.category.name === currentCat);
+//         console.log('TESTEMENT2', result);
+//         return result;
+// }
+
+
+
 
 
 async function fetchCats () {
@@ -19,23 +32,26 @@ async function fetchCats () {
     const jsonData = await cats.json();
     return jsonData;
 }
-fetchCats();
 
 
- async function generateWorks() { 
+
+
+async function generateWorks() { 
     const works = await fetchWorks();
+    console.log('Works', works);
     let htmlContent = '';
+    
     works.forEach(work => {
-        let data =  `<figure>
+        let data =  `<figure id=" ${work.category.name}">
                         <img src="${work.imageUrl}">
                         <figcaption>${work.title}</figcaption>
                     </figure>`;
-                        
+                                       
     htmlContent += data;
-})
+    }) 
     const gallery = document.querySelector('.gallery');
     gallery.innerHTML = htmlContent;
-
+    
 }
 generateWorks();
 
@@ -45,62 +61,87 @@ generateWorks();
 
                 /*génerer boutons ---> */
 
-let newArray =[];
+
+                
 async function generateButtons() {
-    newArray = await fetchCats();
+   
+    const categories = await fetchCats();
     let newEntry = { "id": 0,
-                        "name": "Tous"
+                "name": "Tous"
                 };
-    newArray.unshift(newEntry);
-    for (let i = 0; i <= newArray.length; i++) {
+    categories.unshift(newEntry);
+        for (let i = 0; i <= categories.length; i++) {
+            console.log('TEST', categories);
         const button = document.createElement('button');
         const filters = document.querySelector('.filters');
-        button.innerHTML = newArray[i].name;
+        button.innerHTML = categories[i].name;
         button.setAttribute('id','idName');
-        button.id = newArray[i].name;
-        filters.appendChild(button);  
-    }
-    
-}
- 
+        button.id = categories[i].name;
+        filters.appendChild(button);   
+    }   
+}   
 generateButtons();
+ 
+
 
                 /* <--- génerer boutons */
 
-                
-                
+            
 
-//  function setSelected() {
-//     buttons.forEach(button => {
-//         button.classList.remove('selected');
-//     });
-    
-// }
-// setSelected();
+ function setSelected() {
+    const currentGallery = document.body.contains()
+}
+setSelected();
+
 
 
 
 
     
 const buttons = document.getElementById('filters');
-console.log('buttons', buttons);
 
-let currentFilter = '';
+
+
+
 
 const buttonClicked = (e) => {
     let value = e.target.id;
     filterWorks(value);
+    setSelected(value);
     console.log('value is', value);
+    return value;
 }
 
 buttons.addEventListener("click", buttonClicked);
 
-const filterWorks = (currentCat) => {
-    // gallery.innerHTML = '';
-    
-    // trier le tableau dataWorks avec la bonne catégorie
-    // afficher les works dans galerie
-    // console.log('filterWorks', currentCat);
+
+
+
+ const filterWorks = async (currentCat) => {
+    gallery.innerHTML = '';
+
+    if (currentCat !== 'Tous') {   
+      
+        const works = await fetchWorks();
+        let result = works.filter( cat => cat.category.name === currentCat);
+        let htmlContent = '';
+        
+        result.forEach(work => {
+            let data =  `<figure id=" ${work.category.name}">
+                            <img src="${work.imageUrl}">
+                            <figcaption>${work.title}</figcaption>
+                        </figure>`;
+                                        
+        htmlContent += data;
+        }) 
+        const gallery = document.querySelector('.gallery');
+        gallery.innerHTML = htmlContent;
+        console.log('filterworks', currentCat);
+    } else {
+        generateWorks();
+        
+    }
+        
  }
 
 
