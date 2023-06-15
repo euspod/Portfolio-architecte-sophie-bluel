@@ -42,14 +42,10 @@ async function generateWorks() {
     
 }
 generateWorks();
-
-
                 /*<---afficher projets*/
 
 
                 /*génerer boutons ---> */
-
-
 
 async function generateButtons() {
    
@@ -66,16 +62,10 @@ async function generateButtons() {
         button.setAttribute('id','idName');
         button.setAttribute('class','btn');
         button.id = categories[i].name;
-        filters.appendChild(button);   
+        filters.appendChild(button);  
     }   
 }   
 generateButtons();
-
-
-
-
- 
-
 
                 /* <--- génerer boutons */
 
