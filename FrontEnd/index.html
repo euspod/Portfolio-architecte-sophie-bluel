@@ -7,11 +7,15 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src ="../Backend/works.js" defer ></script>
 </head>
 <body>
+	<div class="admin admin_publish"><i class="fa-regular fa-pen-to-square"></i> Mode édition<button class="btn_publish_modif">publier les changements</button></div>
 <header>
 	<h1><a href="index.html">Sophie Bluel </a><span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -19,7 +23,7 @@
 			<li><a href="projects.html">projets</a></li>
 			<li><a href="contact.html">contact</a></li>
 			<li> <a href="login.html">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			<li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
 		</ul>
 	</nav>
 </header>
@@ -27,8 +31,10 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
+			<button class="admin btn_figure"><i class="fa-regular fa-pen-to-square"></i> Modifier</button>
 		</figure>
 		<article>
+			<button class="admin btn_article"><i class="fa-regular fa-pen-to-square"></i> Modifier</button>
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
@@ -36,7 +42,8 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<h2>Mes Projets <button type="submit" class="admin btn_projects"><i class="fa-regular fa-pen-to-square"></i> Modifier</button></h2>
+		
 		<div id= "filters" class="filters">
 		</div>
 		<div class="gallery">

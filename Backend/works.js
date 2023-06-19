@@ -3,6 +3,9 @@
 
 const gallery = document.querySelector('.gallery');
 const buttons = document.getElementById('filters');
+const token = sessionStorage.getItem('token');
+const adminEl = document.getElementsByClassName('admin');
+
 
 let jsonData = [];
 async function fetchWorks () {
@@ -97,7 +100,7 @@ buttons.addEventListener("click", buttonClicked);
  const filterWorks = async (currentCat) => {
     gallery.innerHTML = ''; /*réiinitialise la galerie */
 
-    if (currentCat !== 'Tous') {    /*vérifie que la galerie n'affiche pas déjà tous les projets*/
+    if (!currentCat === 'Tous') {    /*vérifie que la galerie n'affiche pas déjà tous les projets*/
         
         const works = await fetchWorks();
         let result = works.filter( cat => cat.category.name === currentCat);
@@ -120,6 +123,26 @@ buttons.addEventListener("click", buttonClicked);
         
  }
             /* <--- update gallery */
+
+
+
+
+
+if(!token.token === null); {
+    const log = document.querySelector('li:nth-child(3)> a');
+    c
+
+    Array.from(adminEl).forEach( (el) => {
+        el.style.visibility ='visible';
+    });
+    log.innerHTML ='logout';
+};
+
+
+            
+
+
+
 
 
     

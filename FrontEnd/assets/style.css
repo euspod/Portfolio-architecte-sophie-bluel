@@ -91,7 +91,7 @@ h1 > span {
 }
 
 h2{
-	margin-top: 5em;
+	margin-top: 0.5em;
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
@@ -127,6 +127,7 @@ li a:hover {
 	color: #B1663C;
 	font-weight: bold;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -138,6 +139,7 @@ li a:hover {
 	display: block;
 	margin: auto;
 	width: 80%;
+	margin-bottom: 15px;
 }
 
 #introduction article {
@@ -245,14 +247,18 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+	opacity: 1;
 	
 }
 
-input[type="submit"]:active {
-
-	background-color: #10483d;
-
+input[type="submit"]:hover {
+	
+	background-color: #125045;
+	opacity: 1;
+	transition: opacity 400ms ease-in-out;
+	
 }
+
 
 #login {
 	width: 50%;
@@ -302,6 +308,59 @@ footer {
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 1.5em
 }
 
+.admin {
+	
+	visibility: hidden;
+	
+}
+
+
+.admin.admin_publish {
+	background-color: black;
+	color:white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap:8px;
+	height: 50px;
+	width:100%;
+}
+
+
+.fa-regular fa-pen-to-square{
+	width:10px;
+	height:10px;
+}
+
+.btn_publish_modif {
+	border-radius: 60px;
+	background-color: white;
+	border:none;
+	padding: 5px 15px 5px 15px;
+	font-size: small;
+}
+.admin.btn_figure {
+  all:unset;
+  cursor: pointer;
+  display: block;
+  margin: auto;
+  width: 80%;
+}
+
+.admin.btn_projects{
+	all:unset;
+	color:black;
+	font-size:14px;
+	font-weight:100;
+	font-family:'Work Sans';
+	padding-left: 15px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.btn_article {
+	all:unset;
+	cursor: pointer;
+}
