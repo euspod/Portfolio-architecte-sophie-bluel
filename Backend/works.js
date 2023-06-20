@@ -3,8 +3,10 @@
 
 const gallery = document.querySelector('.gallery');
 const buttons = document.getElementById('filters');
-const token = sessionStorage.getItem('token');
-const adminEl = document.getElementsByClassName('admin');
+const token = localStorage.getItem('token');
+// const adminEl = document.getElementsByClassName('admin');
+// const log = document.querySelector('li:nth-child(3)> a');
+
 
 
 let jsonData = [];
@@ -27,7 +29,6 @@ const button = document.getElementsByClassName('btn');
 
 async function generateWorks() { 
     const works = await fetchWorks();
-    console.log('Works', works);
     let htmlContent = '';
     
     works.forEach(work => {
@@ -37,7 +38,6 @@ async function generateWorks() {
                     </figure>`;
                                        
     htmlContent += data;
-    button[0].classList.add('selected'); /*initialise le bouton 'tous' en mode selectionné */
     }) 
 
     const gallery = document.querySelector('.gallery');
@@ -67,6 +67,7 @@ async function generateButtons() {
         button.id = categories[i].name;
         filters.appendChild(button);  
     }   
+    button[0].classList.add('selected'); /*initialise le bouton 'tous' en mode selectionné */
 }   
 generateButtons();
 
@@ -79,6 +80,7 @@ generateButtons();
 const buttonClicked = (e) => { /*détecte l'evènement boutons cliqué */
     const btns = document.querySelectorAll('.btn');
     let value = e.target.id; /*on stocke la valeur de l'id de la cible */
+    console.log(value);
     let currentBtn = e.target;/*on stocke la cible */
     filterWorks(value);
     btns.forEach(btn => {   /*supprime le mode selectionné sur tout autre bouton qui n'est pas le bouton actif*/
@@ -99,8 +101,8 @@ buttons.addEventListener("click", buttonClicked);
 
  const filterWorks = async (currentCat) => {
     gallery.innerHTML = ''; /*réiinitialise la galerie */
-
-    if (!currentCat === 'Tous') {    /*vérifie que la galerie n'affiche pas déjà tous les projets*/
+    
+    if (currentCat !== 'Tous') {    /*vérifie que la galerie n'affiche pas déjà tous les projets*/
         
         const works = await fetchWorks();
         let result = works.filter( cat => cat.category.name === currentCat);
@@ -113,12 +115,13 @@ buttons.addEventListener("click", buttonClicked);
                         </figure>`;
                                         
         htmlContent += data;
-        }) 
+    }) 
         const gallery = document.querySelector('.gallery');
         gallery.innerHTML = htmlContent;
-
+        
     } else {
         generateWorks(); /*si la première condition n'est pas respectée, on affiche la galerie par défaut */
+        
     }
         
  }
@@ -126,17 +129,51 @@ buttons.addEventListener("click", buttonClicked);
 
 
 
-
-
-if(!token.token === null); {
+           
+function setAdmin() {
+    const adminEl = document.getElementsByClassName('admin');
     const log = document.querySelector('li:nth-child(3)> a');
-    c
+    if(token !== null) {
+        Array.from(adminEl).forEach( (el) => {
+            el.style.visibility ='visible';
+        });
+        log.innerHTML ='logout';
+    } 
+}
+setAdmin();
 
-    Array.from(adminEl).forEach( (el) => {
-        el.style.visibility ='visible';
-    });
-    log.innerHTML ='logout';
-};
+
+const logOut = (e) => {
+    if(log.innerHTML === 'logout') {
+       localStorage.removeItem('token');
+    }
+}
+
+const log = document.querySelector('li:nth-child(3)> a');
+
+
+log.addEventListener('click', logOut());
+
+
+     
+// logout.addEventListener('click',(e) => {
+//     const log = document.querySelector('li:nth-child(3)> a');
+
+//     const adminEl = document.getElementsByClassName('admin');
+
+    
+//     }else {
+        
+        
+//     };
+
+// })
+    
+    
+
+        
+       
+
 
 
             

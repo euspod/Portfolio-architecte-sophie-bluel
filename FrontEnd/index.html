@@ -13,9 +13,10 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src ="../Backend/works.js" defer ></script>
+	<script src ="../Backend/modal.js"></script>
 </head>
 <body>
-	<div class="admin admin_publish"><i class="fa-regular fa-pen-to-square"></i> Mode édition<button class="btn_publish_modif">publier les changements</button></div>
+	<div class="admin btn_publish"><i class="fa-regular fa-pen-to-square"></i> Mode édition<div class="btn_publish_modif"><a href="">publier les changements</a></div></div>
 <header>
 	<h1><a href="index.html">Sophie Bluel </a><span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -31,10 +32,10 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
-			<button class="admin btn_figure"><i class="fa-regular fa-pen-to-square"></i> Modifier</button>
+			<div class="admin btn_figure"><a href="#"><i class="fa-regular fa-pen-to-square"></i> Modifier</a></div>
 		</figure>
 		<article>
-			<button class="admin btn_article"><i class="fa-regular fa-pen-to-square"></i> Modifier</button>
+			<div class="admin btn_article"><a href="#"><i class="fa-regular fa-pen-to-square"></i> Modifier</a></div>
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
@@ -42,8 +43,19 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets <button type="submit" class="admin btn_projects"><i class="fa-regular fa-pen-to-square"></i> Modifier</button></h2>
-		
+		<h2>Mes Projets 
+			<span class="admin btn_projects">
+				<a href="#modal"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>
+			</span>
+		</h2>
+
+			<aside id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal_title" > <!-- style="display: none;" -->
+				<div class="modal_wrapper">
+					<button class="modal_close">X</button>
+					<h2 id="modal_title">Galerie photo</h2>
+					<input type="submit" value="soumettre"></input>
+				</div>
+			</aside>
 		<div id= "filters" class="filters">
 		</div>
 		<div class="gallery">

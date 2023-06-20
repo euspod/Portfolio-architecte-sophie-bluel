@@ -31,7 +31,7 @@ async function submit(e) {
 	try {
         const formData = new FormData(submitBtn);
         const responseData = await fetchPost({ url, formData });
-		sessionStorage.setItem('token', responseData.token);
+		localStorage.setItem('token', responseData.token);
         window.location.href='index.html';
 	} catch (error) {
 		alert(`La requête n'/a pu aboutir`);
@@ -41,3 +41,4 @@ async function submit(e) {
 
 const submitBtn = document.querySelector(".form");
 submitBtn.addEventListener("submit", submit);
+
