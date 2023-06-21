@@ -10,11 +10,13 @@ const token = localStorage.getItem('token');
 
 
 let jsonData = [];
+// import fetchWorks from "./fetches";
 async function fetchWorks () {
     const works = await fetch('http://localhost:5678/api/works');
     const jsonData = await works.json();
     return jsonData;
 }
+
 fetchWorks();
 
 let cats = [];
@@ -145,7 +147,7 @@ setAdmin();
 
 const logOut = (e) => {
     if(log.innerHTML === 'logout') {
-       localStorage.removeItem('token');
+    //    localStorage.removeItem('token');
     }
 }
 
@@ -168,6 +170,7 @@ log.addEventListener('click', logOut());
 //     };
 
 // })
+
     
     
 
