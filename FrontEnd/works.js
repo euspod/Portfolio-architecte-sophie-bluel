@@ -1,30 +1,32 @@
+import { fetchCats,fetchWorks} from "./fetches.js";
+
+
 
                 /*afficher projets ---> */
 
 const gallery = document.querySelector('.gallery');
 const buttons = document.getElementById('filters');
 const token = localStorage.getItem('token');
-// const adminEl = document.getElementsByClassName('admin');
-// const log = document.querySelector('li:nth-child(3)> a');
+const adminEl = document.getElementsByClassName('admin');
+// const logs = document.querySelector('li:nth-child(3)> a');
+
+
+// async function fetchWorks () {
+//    const res = await fetch('http://localhost:5678/api/works');
+//    works = await res.json();
+//    return works;
+// }
 
 
 
-let jsonData = [];
-// import fetchWorks from "./fetches";
-async function fetchWorks () {
-    const works = await fetch('http://localhost:5678/api/works');
-    const jsonData = await works.json();
-    return jsonData;
-}
 
-fetchWorks();
 
-let cats = [];
-async function fetchCats () {
-    const data = await fetch('http://localhost:5678/api/categories');
-    cats = await data.json();
-    return cats;
-}
+// async function fetchCats () {
+//    const data = await fetch('http://localhost:5678/api/categories');
+//    cats = await data.json();
+//    return cats;
+// }
+
 
 
 const button = document.getElementsByClassName('btn');
@@ -146,15 +148,15 @@ setAdmin();
 
 
 const logOut = (e) => {
-    if(log.innerHTML === 'logout') {
+    if(logs.innerHTML === 'logout') {
     //    localStorage.removeItem('token');
     }
 }
 
-const log = document.querySelector('li:nth-child(3)> a');
+const logs = document.querySelector('li:nth-child(3)> a');
 
 
-log.addEventListener('click', logOut());
+logs.addEventListener('click', logOut());
 
 
      

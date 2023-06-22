@@ -12,8 +12,9 @@
     crossorigin="anonymous" referrerpolicy="no-referrer">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src ="../Backend/works.js" defer ></script>
-	<script src ="../Backend/modal.js" defer></script>
+	<script  src ="fetches.js" defer ></script>
+	<script type ="module" src ="works.js" defer ></script>
+	<script type ="module" src ="modal.js" defer></script>
 </head>
 <body>
 	<div class="admin btn_publish"><i class="fa-regular fa-pen-to-square"></i> Mode édition<div class="btn_publish_modif"><a href="">publier les changements</a></div></div>
@@ -55,7 +56,10 @@
 					<span class="modal_close">&times;</span>
 					<h2 id="modal_title">Galerie photo</h2>
 					<div class="modal_body">
-						<div class="modal_gallery"></div>
+						<div class="modal_gallery">
+						</div>
+					</div>
+					<div class="modal_footer">
 						<hr>
 						<input id="submit" type="submit" value="Ajouter une photo"></input>
 						<button class="delete">Supprimer la galerie</button>
