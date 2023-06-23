@@ -11,8 +11,11 @@ const modal_box = document.querySelector('modal_box');
 
 const openModal = btn.addEventListener('click', (e) => {
     e.preventDefault();
+    const target = document.querySelector(e.target.getAttribute('href'));
     modal.style.display = 'block';
-    generateThumbnail();
+    target.removeAttribute('aria-hidden');
+    target.setAttribute('aria-modal','true');
+    generateThumbnails();
 } );
 
 document.addEventListener("click", (e) => {
@@ -27,30 +30,30 @@ function closeModal() {
 }
 
 
-//  const generateThumbnail = async function() {
-//     const works = await fetchWorks();
-//     const modal_gal = document.querySelector('.modal_gallery');
-//     works.forEach(work =>{
-//         const figures = modal_gal.createElement('figure');
-//         const thumbnail = figures.createElement('img');
-//         thumbnail.src = work;
-//     });
-//     figures.appendChild(thumbnail);
-//     modal_gal.appendChild(work);
-// }
-  
-// generateThumbnail();
-
-const generateThumbnail = async function() {
+const generateThumbnails = async function() {
     const works = await fetchWorks();
     let htmlContent = '';
-    works.forEach(work => {  
-    let data =  `<figure">
-                <img src="${work.imageUrl}">
-                </figure>`;
-                
+    
+    works.forEach(work => {
+        let data =  `<figure id="${work.id}" tabindex="${work.id}">
+                        <i id="${work.id}"class="fa-solid fa-arrows-up-down-left-right"></i>
+                        <i id="${work.id}" class="fa-solid fa-trash-can"></i>
+                        <img src="${work.imageUrl}">
+                    </figure>`;
+                                       
     htmlContent += data;
-    }); 
+    });
     const modal_gal = document.querySelector('.modal_gallery');
     modal_gal.innerHTML = htmlContent;
 }
+  
+const focused = addEventListener('focusin', (e)=> {
+   const arrowIcon = e.target.firstElementChild;
+   console.log(e.target.id);
+   if(e.target.id === arrowIcon.id) {
+
+       arrowIcon.style.display = 'block';
+   }else if(e.target.id !== arrowIcon.id){
+    arrowIcon.style.display = none;
+   }
+});
