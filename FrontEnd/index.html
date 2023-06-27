@@ -15,6 +15,7 @@
 	<script  src ="fetches.js" defer ></script>
 	<script type ="module" src ="works.js" defer ></script>
 	<script type ="module" src ="modal.js" defer></script>
+	<script src="validate-image.js" defer ></script>
 </head>
 <body>
 	<div class="admin btn_publish"><i class="fa-regular fa-pen-to-square"></i> Mode édition<div class="btn_publish_modif"><a href="">publier les changements</a></div></div>
@@ -68,27 +69,31 @@
 					<span class=" modal_nav modal_close">&times;</span>
 					<span class="modal_nav modal_return">&#8592;</span>
 					<h2 id="modal_title">Ajout photo</h2>
-					<div class="modal_bod">
-						<form action="">
-								<div class="modal_upload-1">
-									<i class="fa-regular fa-image"></i>
-									<button class="add_pic">+ Ajouter photo
-										<!-- <input class="up_file" type="file" accept="image/*" value=""></input> -->
-									</button>
-									<p>jpg, png : 4mo max</p>
+					<form id="validate_form" action="" >
+							<div class="modal_bod">
+									<div class="modal_upload-1">
+										<i class="fa-regular fa-image"></i>
+										<label id="add_btn" for="upload" >+ Ajouter photo</label>
+										<input id="upload" type="file" name="image" accept="image/png image/jpg" required>
+										<p>jpg, png : 4mo max</p>
+									</div>
+									<div class="modal_upload-2">
+										<label for="title">Titre</label>
+										<input type="text" class="upload" name="title" required >
+										<label for="category">Catégorie</label>
+											<select type="text" class="upload" name="category" required />
+												<option value="objects">Objets</option>
+												<option value="appartements et hôtels">Appartements et hôtels</option>
+												<option value="bars et restaurants">Bars et restaurants</option>
+											</select>
+									</div>
+							
+							</div>
+								<div class="modal_footer">
+									<hr>
+									<input id="validate" type="submit" value="Valider">
 								</div>
-								<div class="modal_upload-2">
-									<label for="title">Titre</label>
-									<input type="text" class="upload" name="title"/>
-									<label for="category">Catégorie</label>
-									<input type="text" class="upload" name="category"/>
-								</div>
-						</form>
-					</div>
-					<div class="modal_footer">
-						<hr>
-						<input id="validate" type="submit" value="Valider"></input>
-					</div>
+					</form>
 				</div>
 			</aside>
 		<div id= "filters" class="filters">

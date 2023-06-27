@@ -11,23 +11,6 @@ const adminEl = document.getElementsByClassName('admin');
 // const logs = document.querySelector('li:nth-child(3)> a');
 
 
-// async function fetchWorks () {
-//    const res = await fetch('http://localhost:5678/api/works');
-//    works = await res.json();
-//    return works;
-// }
-
-
-
-
-
-// async function fetchCats () {
-//    const data = await fetch('http://localhost:5678/api/categories');
-//    cats = await data.json();
-//    return cats;
-// }
-
-
 
 const button = document.getElementsByClassName('btn');
 

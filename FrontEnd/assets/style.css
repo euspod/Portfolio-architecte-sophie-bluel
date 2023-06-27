@@ -396,6 +396,7 @@ footer nav ul {
 .modal_return {
 	display:none;
 	left: 24px;
+	width: min-content;
 }
 
 
@@ -426,20 +427,23 @@ footer nav ul {
 	width:100px;;
 	padding:1%;
 	box-sizing: border-box;
+	border: 1px solid transparent;
 }
+.modal_gallery img:focus {
+	object-fit: contain;
+	width:100px;;
+	padding:1%;
+	box-sizing: border-box;
+	border: 1px solid yellow;
+}
+
 
 .modal_gallery figure {
 	position: relative;
 	width: min-content;
 	height: min-content;
-	border: 1px solid transparent;
 }
-.modal_gallery figure:focus{
-	position: relative;
-	width: min-content;
-	height: min-content;
-	border: 1px solid yellow;
-}
+
 .modal_gallery figure:hover{
 	cursor:pointer;
 }
@@ -473,6 +477,7 @@ border: 0;
   width: 70%;               
   background-color:#cfcfcf;
   height: 2px;
+  margin-bottom:5px ;
 }
 .modal_footer {
 	position: absolute;
@@ -488,7 +493,7 @@ border: 0;
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin : 1.5em auto;
 	width: 260px;
 	text-align: center;
 	border-radius: 60px;
@@ -511,7 +516,7 @@ border: 0;
 
 .modal_box-2 {
 	width:600px;
-	height:550px;
+	height:600px;
 	margin: auto;
 	margin-top: 5%;
 	background-color: white;
@@ -561,24 +566,32 @@ border: 0;
 .modal_upload-1{
 	width: 400px;
 	height: 150px;
-	padding: 3%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	background-color: rgb(229, 239, 245);
 	gap:8px;
 	margin-bottom: 15px;
-	
 }
-.add_pic {
+
+#upload {
+	display : none;
+}
+
+#add_btn {
 	background-color:#dadada; ;
 	border-radius: 60px;
 	color: rgb(125, 141, 198);
 	font-size: 12px;
 	font-weight: bold;
+	margin-left: auto;
+	margin-right: auto;
 	border:none;
-	padding:5px 15px 5px 15px;
+	padding:10px 20px 10px 20px;
+	cursor: pointer;
  }
+
+ 
  .modal_upload-2{
 	width: 400px;
 	padding: 3%;
@@ -586,12 +599,24 @@ border: 0;
 	flex-direction: column;
 	justify-content: center;
 	background-color: rgb(255, 255, 255);
+	background-position: center;
+	background-size: contain;
 	gap:15px;
 	text-align: left;
-	margin-bottom: 15px;;
 }
 
-.modal_upload-2 input {
+.modal_upload-2 input, select {
 	box-shadow: 0 5px 5px rgb(229, 229, 229);
 	border:none;
+	background-color: white;
+	height: 40px;
+	vertical-align: middle;
+}
+
+
+.modal_upload-1 img{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    object-fit: contain;
 }

@@ -4,12 +4,15 @@ import {fetchWorks} from "./fetches.js";
 
 const modal = document.getElementById('modal');
 const btn = document.getElementById('btn_proj');
-const close = document.querySelector('.modal_close');
+const closes = document.getElementsByClassName('modal_close');
+const modal_body = document.querySelector('.modal_body');
 const modal_box_1 = document.querySelector('.modal_box-1');
 const modal_box_2 = document.querySelector('.modal_box-2');
 const modal_gal = document.querySelector('.modal_gallery');
 const btn_Add = document.getElementById('addFile');
 const modal_return = document.querySelector('.modal_return');
+const image_input = document.querySelector('#up_file');
+let uploaded_image = '';
 
 
 
@@ -20,17 +23,18 @@ const openModal = btn.addEventListener('click', (e) => {
     
     } 
 );
+Array.from(closes).forEach(close => {
 
-close.addEventListener("click", (e) => {
-		if (e.target === close || e.target === modal) {
-			closeModal();
-		}
-	} 
-);
+    close.addEventListener("click",closeModal);
+});
+
 
 function closeModal() {
+
 	modal.style.display = "none";
+    
 }
+
 
 const generateThumbnails = async function() {
     const works = await fetchWorks();
@@ -53,34 +57,45 @@ const focusedIn = modal_gal.addEventListener('focusin', (e)=> {
    const arrowIcon = e.target.firstElementChild;
    if(e.target.id === arrowIcon.id ) { 
        arrowIcon.style.display = 'block';
+       e.target.children[2].style.border = '1px solid yellow';
     };
+    console.log('e',e.target.children[2]);
 });
 
 const focusedOut = modal_gal.addEventListener('focusout', (e)=> {
    const arrowIcon = e.target.firstElementChild;
    if(e.target.id === arrowIcon.id ) { 
        arrowIcon.style.display = 'none';
+       e.target.children[2].style.border = '1px solid transparent';
     };
 });
 
 const addFile = btn_Add.addEventListener('click',function(e) {
     e.preventDefault();
-//    const modal_title = document.querySelector('#modal_title');
-   const modal_body = document.querySelector('.modal_body');
    modal_box_1.style.display = 'none';
    modal_box_2.style.display = 'block';
    modal_return.style.display = 'block';
-   console.log('addfile',e.target);
-
-//    modal_title.textContent = 'Ajout photo';
-//    modal_box.style.height = '500px';
 }
 );
 
 const modal_previous = modal_return.addEventListener('click',function(e) {
     e.preventDefault();
-    console.log('return',e.target);
+    console.log('return',e);
     modal_box_2.style.display = 'none';
     modal_box_1.style.display = 'block';
     }
 );
+
+
+const display = document.querySelector('.modal_upload-1');
+const input = document.querySelector('#upload');
+let img = display.querySelector('img');
+
+input.addEventListener('change', () => {
+  let reader = new FileReader();
+  reader.readAsDataURL(input.files[0]);
+  reader.addEventListener('load', () => {
+    display.innerHTML = `<img src=${reader.result} alt=''/>`;
+  });
+});
+
