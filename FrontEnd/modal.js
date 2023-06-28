@@ -44,7 +44,7 @@ const generateThumbnails = async function() {
         let data =  `<figure id="${work.id}" tabindex="${work.id}">
                         <i id="${work.id}"class="fa-solid fa-arrows-up-down-left-right"></i>
                         <i id="${work.id}" class="fa-solid fa-trash-can"></i>
-                        <img src="${work.imageUrl}">
+                        <img id="${work.id}" src="${work.imageUrl}">
                         <p>éditer</p>
                     </figure>`;
                                        
@@ -59,7 +59,7 @@ const focusedIn = modal_gal.addEventListener('focusin', (e)=> {
        arrowIcon.style.display = 'block';
        e.target.children[2].style.border = '1px solid yellow';
     };
-    console.log('e',e.target.children[2]);
+    
 });
 
 const focusedOut = modal_gal.addEventListener('focusout', (e)=> {
@@ -80,7 +80,6 @@ const addFile = btn_Add.addEventListener('click',function(e) {
 
 const modal_previous = modal_return.addEventListener('click',function(e) {
     e.preventDefault();
-    console.log('return',e);
     modal_box_2.style.display = 'none';
     modal_box_1.style.display = 'block';
     }
@@ -99,3 +98,24 @@ input.addEventListener('change', () => {
   });
 });
 
+
+
+    
+
+
+ const deleteImage = modal_gal.addEventListener('click', async function(e) {
+    e.preventDefault();
+    let id= e.target.id;
+    console.log(`http://localhost:5678/api/works/${id}`);
+    const token = localStorage.getItem('token');
+    const res = await fetch(`http://localhost:5678/api/works/${id}`, {
+       method: "DELETE",
+    //    'withCredentials': "true",
+    //    "credentials": "include",
+       headers: {
+             "Content-Type": "application/json",
+          "Accept": "*/*",
+          "Authorization": `Bearer: ${token}`,
+         },
+    });
+});

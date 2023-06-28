@@ -8,7 +8,7 @@ async function fetchPost({ url, formData }) {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Accept: "application/json",
+			"Accept": "application/json",
 		},
 		body: data,
 	};
