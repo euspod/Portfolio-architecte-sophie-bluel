@@ -72,7 +72,7 @@ const buttonClicked = (e) => { /*détecte l'evènement boutons cliqué */
     filterWorks(value);
     btns.forEach(btn => {   /*supprime le mode selectionné sur tout autre bouton qui n'est pas le bouton actif*/
         if(btn !== value) {         /*on ajoute le mode selected au bouton cliqué  */
-            btn.classList.remove('selected'); /*ap l'avoir supprimé sur tout autre bouton qui */
+            btn.classList.remove('selected'); /*ap l'avoir supprimé sur tout autre bouton */
             currentBtn.classList.add('selected'); 
         }   
     });                                   
@@ -92,6 +92,7 @@ buttons.addEventListener("click", buttonClicked);
     if (currentCat !== 'Tous') {    /*vérifie que la galerie n'affiche pas déjà tous les projets*/
         
         const works = await fetchWorks();
+        console.log("works",works);
         let result = works.filter( cat => cat.category.name === currentCat);
         let htmlContent = '';
         

@@ -12,7 +12,6 @@ const modal_gal = document.querySelector('.modal_gallery');
 const btn_Add = document.getElementById('addFile');
 const modal_return = document.querySelector('.modal_return');
 const image_input = document.querySelector('#up_file');
-let uploaded_image = '';
 
 
 
@@ -88,7 +87,6 @@ const modal_previous = modal_return.addEventListener('click',function(e) {
 
 const display = document.querySelector('.modal_upload-1');
 const input = document.querySelector('#upload');
-let img = display.querySelector('img');
 
 input.addEventListener('change', () => {
   let reader = new FileReader();
@@ -100,13 +98,28 @@ input.addEventListener('change', () => {
 
 
 
-    
+// let clickEvent = (e) => {
+//     e.preventDefault();
+//     console.log(e);
+//     let id= e.target.id;
+//     console.log('e-target.id',e.target.id);
+//     console.log('e.target',e.target);
+//     const token = localStorage.getItem('token');
+// }
 
 
- const deleteImage = modal_gal.addEventListener('click', async function(e) {
+//     modal_gal.addEventListener('click', clickEvent)
+
+
+
+
+modal_gal.addEventListener('click', async (e)=> {
+  if (e.target.classList.contains('fa-trash-can')) {
     e.preventDefault();
+    // console.log(item);
     let id= e.target.id;
-    console.log(`http://localhost:5678/api/works/${id}`);
+    console.log('e-target.id',e.target.id);
+    console.log('e.target',e.target);
     const token = localStorage.getItem('token');
     const res = await fetch(`http://localhost:5678/api/works/${id}`, {
        method: "DELETE",
@@ -116,6 +129,14 @@ input.addEventListener('change', () => {
              "Content-Type": "application/json",
           "Accept": "*/*",
           "Authorization": `Bearer: ${token}`,
-         },
+         }});
+         return;
+        
+    }
+    
     });
-});
+
+
+ 
+
+
