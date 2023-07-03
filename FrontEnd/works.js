@@ -67,7 +67,6 @@ generateButtons();
 const buttonClicked = (e) => { /*détecte l'evènement boutons cliqué */
     const btns = document.querySelectorAll('.btn');
     let value = e.target.id; /*on stocke la valeur de l'id de la cible */
-    console.log(value);
     let currentBtn = e.target;/*on stocke la cible */
     filterWorks(value);
     btns.forEach(btn => {   /*supprime le mode selectionné sur tout autre bouton qui n'est pas le bouton actif*/
@@ -92,7 +91,6 @@ buttons.addEventListener("click", buttonClicked);
     if (currentCat !== 'Tous') {    /*vérifie que la galerie n'affiche pas déjà tous les projets*/
         
         const works = await fetchWorks();
-        console.log("works",works);
         let result = works.filter( cat => cat.category.name === currentCat);
         let htmlContent = '';
         

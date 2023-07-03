@@ -12,20 +12,24 @@ async function fetchPost({ url, formData }) {
 		},
 		body: data,
 	};
-
 	const response = await fetch(url, fetchOptions);
-	if (!response.ok) {
-		alert('Email ou mot de passe invalide(s).');
+	try {
+		
+		if(response.status === 404) throw `L'adresse email saisie est invalide.`;
+		if(response.status === 401) throw `Le mot de passe que vous avez indiqué n'est pas reconnu.`;
+		return response.json();
+
+	}catch(error) {
+
+		alert('Erreur: '+ error);
 		return;
-	}
-	return response.json();
-	
+	};
+		
 }
 
 
 async function submit(e) {
 	e.preventDefault();
-
     const url = 'http://localhost:5678/api/users/login';
 
 	try {
@@ -33,9 +37,9 @@ async function submit(e) {
         const responseData = await fetchPost({ url, formData });
 		localStorage.setItem('token', responseData.token);
         window.location.href='index.html';
-	} catch (error) {
-		alert(`La requête n'/a pu aboutir`);
-        return;
+	} catch (err) {
+		console('Erreur: '+ err);
+        
 	}
 }
 
