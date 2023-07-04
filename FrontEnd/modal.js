@@ -1,5 +1,5 @@
 
-import {fetchWorks} from "./fetches.js";
+import {fetchWorks } from "./fetches.js";
 const works = await fetchWorks();
 
 
@@ -19,8 +19,6 @@ const addImageform = document.querySelector('#validate_form');
 const display = document.querySelector('.modal_upload-1');
 
 
-
-
 const openModal = btn.addEventListener('click', (e) => {
     e.preventDefault();
     modal.style.display = 'block';
@@ -30,17 +28,21 @@ const openModal = btn.addEventListener('click', (e) => {
 );
 
 
-Array.from(closes).forEach(close => close.addEventListener('click',closeModal));
-
-    
-
-
-function closeModal() {
-  if(modal.style.display ==='none') return;
-	modal.style.display = "none";
-	window.location.reload();
-  
+const closeBtn = function() {
+  Array.from(closes).forEach(close => close.addEventListener());
 }
+
+document.addEventListener('click',function(e) {
+
+  for(let i= 0; i< closes.length; i++) {
+
+    if(e.target === modal || e.target === closes[i] ) {
+      modal.style.display ='none';
+  };
+
+  }
+});
+
 
 
 const generateThumbnails = async function() {
@@ -119,45 +121,45 @@ const deleteFile = modal_gal.addEventListener('click', async (e)=> {
     });
 
 
-    addImageform.addEventListener('change', (e) => {
-      e.preventDefault();
-      console.log('AddImageform',e);
-      let fileSize = upload.files[0].size;
-      const maxSize = 8 * 1024 * 1024;
-      let reader = new FileReader();
-      reader.readAsDataURL(upload.files[0]);
-        reader.addEventListener('load', (o) => {
-              if(fileSize > maxSize) {
-                alert('Ce fichier est trop volumineux.')
-              }else{
-                display.innerHTML = `<img src=${reader.result} alt=''/>`;
-                submit_btn.removeAttribute('disabled');
-              }
-            });
+addImageform.addEventListener('change', (e) => {
+  e.preventDefault();
+  console.log('AddImageform',e);
+  let fileSize = upload.files[0].size;
+  const maxSize = 8 * 1024 * 1024;
+  let reader = new FileReader();
+  reader.readAsDataURL(upload.files[0]);
+    reader.addEventListener('load', (o) => {
+          if(fileSize > maxSize) {
+            alert('Ce fichier est trop volumineux.')
+          }else{
+            display.innerHTML = `<img src=${reader.result} alt=''/>`;
+            submit_btn.removeAttribute('disabled');
+          }
+        });
+  
+  }); 
      
-      }); 
-     
-    addImageform.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(addImageform);  
-     fetch ('http://localhost:5678/api/works',{
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Authorization": `Bearer ${token}`,
-        },
-        body: formData,
-          }).then(res => res.json())
-            .then(data => { 
-            works.push(data);
-            addImageform.reset();
-            display.innerHTML='';
-            setUploadUI();
-            
-            })
-          
-          .catch(error => console.log(error));   
- } );
+addImageform.addEventListener('submit', (e) => {
+e.preventDefault();
+const formData = new FormData(addImageform);  
+  fetch ('http://localhost:5678/api/works',{
+    method: "POST",
+    headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`,
+    },
+    body: formData,
+      }).then(res => res.json())
+        .then(data => { 
+        works.push(data);
+        addImageform.reset();
+        display.innerHTML='';
+        setUploadUI();
+        
+        })
+      
+      .catch(error => console.log(error));   
+} );
 
  const modal_previous = modal_return.addEventListener('click',function(e) {
   e.preventDefault();
