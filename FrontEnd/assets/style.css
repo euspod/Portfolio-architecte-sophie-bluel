@@ -54,22 +54,33 @@ table {
 
 
 /** end reset css**/
+
 body {
-	max-width: 1140px;
-	margin:auto;
+	/* max-width: 1140px; */
+
+	padding: 0;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	
 }
+main {
+	max-width: 1140px;
+	margin: auto;
+}
+
 header {
+	max-width: 1140px;
+	margin: auto;
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0;
+	
 }
 section {
 	margin: 50px 0;
 }
 
 h1{
+	margin-top: 25px;
 	display: flex;
 	flex-direction: column;
 	font-family: 'Syne';
@@ -98,6 +109,8 @@ h2{
 	color: #1D6154
 }
 nav ul {
+	margin-right: 10%;
+	margin-top:25px;
 	display: flex;
 	align-items: center;
 	list-style-type: none;
@@ -284,15 +297,9 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-
-
-
-
 #login label {
 	margin: 2em 0 1em 0;
 }
-
-
 
 footer {
 	background-color: white;
@@ -321,6 +328,8 @@ footer nav ul {
 	gap:8px;
 	height: 50px;
 	width:100%;
+	margin: auto;
+	
 }
 
 
@@ -349,10 +358,12 @@ footer nav ul {
 	font-size:14px;
 	font-weight:100;
 	font-family:'Work Sans';
+	margin-top: 10px;
 	padding-left: 15px;
 	vertical-align: middle;
 	
 }
+
 
 #modal {
 	position: fixed;

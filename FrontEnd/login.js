@@ -1,9 +1,7 @@
 
-
-
-async function fetchPost({ url, formData }) {
-	const rawData = Object.fromEntries(formData.entries());
-	const data = JSON.stringify(rawData);
+async function fetchPost(url, formData ) {
+	const rawData = Object.fromEntries(formData.entries()); /* convertit données de connexion de l'utilisateur dans un tableau paire clé/valeur,*/
+	const data = JSON.stringify(rawData);					/*puis en chaine de caractère, ajoute ces données aux optins de fetch, vérifie la réponse */
 	const fetchOptions = {
 		method: "POST",
 		headers: {
@@ -28,21 +26,24 @@ async function fetchPost({ url, formData }) {
 }
 
 
-async function submit(e) {
+async function submit(e) {    
 	e.preventDefault();
     const url = 'http://localhost:5678/api/users/login';
 
-	try {
+	try {												/* récupère les données de fetch, stocke le token reçu, redirige vers index.html */
         const formData = new FormData(submitBtn);
-        const responseData = await fetchPost({ url, formData });
+        const responseData = await fetchPost( url, formData );
 		localStorage.setItem('token', responseData.token);
         window.location.href='index.html';
 	} catch (err) {
-		console('Erreur: '+ err);
+		console.log('Erreur: '+ err);
         
 	}
 }
 
 const submitBtn = document.querySelector(".form");
-submitBtn.addEventListener("submit", submit);
+
+
+submitBtn.addEventListener("submit", submit);     
+
 

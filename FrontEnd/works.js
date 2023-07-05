@@ -1,14 +1,10 @@
-import { fetchCats,fetchWorks} from "./fetches.js";
-
-
+import { fetchCats,fetchWorks,works} from "./fetches.js";
 
                 /*afficher projets ---> */
 
 const gallery = document.querySelector('.gallery');
 const buttons = document.getElementById('filters');
 const token = localStorage.getItem('token');
-const adminEl = document.getElementsByClassName('admin');
-// const logs = document.querySelector('li:nth-child(3)> a');
 
 
 
@@ -32,7 +28,7 @@ async function generateWorks() {
     
 }
 generateWorks();
-                /*<---afficher projets*/
+                /*<---fin afficher projets*/
 
 
                 /*génerer boutons ---> */
@@ -58,7 +54,7 @@ async function generateButtons() {
 }   
 generateButtons();
 
-                /* <--- génerer boutons */
+                /* <--- fin génerer boutons */
 
 
 
@@ -79,7 +75,7 @@ const buttonClicked = (e) => { /*détecte l'evènement boutons cliqué */
 
 buttons.addEventListener("click", buttonClicked);
 
-            /* <--- detecter clic ajout classe selected boutons */
+            /* <--- fin detecter clic ajout classe selected boutons */
 
 
 
@@ -111,70 +107,32 @@ buttons.addEventListener("click", buttonClicked);
     }
         
  }
-            /* <--- update gallery */
+            /* <--- fin update gallery */
 
-
-
-           
-function setAdmin() {
+            /* <--- set admin mode */
+const login = document.getElementById('logout');
+const setAdmin = function() {
     const adminEl = document.getElementsByClassName('admin');
-    const log = document.querySelector('li:nth-child(3)> a');
     if(token !== null) {
         Array.from(adminEl).forEach( (el) => {
             el.style.visibility ='visible';
+            
         });
-        log.innerHTML ='logout';
-    } 
+        login.innerHTML ='logout';
+    };
 }
 setAdmin();
+            /* <--- fin set admin mode */
+     
 
+            /* <--- log out */
 
-const logOut = (e) => {
-    if(logs.innerHTML === 'logout') {
-    //    localStorage.removeItem('token');
-    }
+const logOut = function(e) {
+	if(login.innerHTML === 'logout') {
+	   localStorage.removeItem('token');
+	}
 }
 
-const logs = document.querySelector('li:nth-child(3)> a');
+login.addEventListener('click', logOut);
 
-
-logs.addEventListener('click', logOut());
-
-
-     
-// logout.addEventListener('click',(e) => {
-//     const log = document.querySelector('li:nth-child(3)> a');
-
-//     const adminEl = document.getElementsByClassName('admin');
-
-    
-//     }else {
-        
-        
-//     };
-
-// })
-
-    
-    
-
-        
-       
-
-
-
-            
-
-
-
-
-
-    
-        
-    
-        
-        
-    
-    
-
-
+            /* <--- fin log out */

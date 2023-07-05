@@ -1,7 +1,5 @@
 
-import {fetchWorks } from "./fetches.js";
-const works = await fetchWorks();
-
+import {works } from "./fetches.js";
 
 const modal = document.getElementById('modal');
 const btn = document.getElementById('btn_proj');
@@ -12,14 +10,13 @@ const modal_gal = document.querySelector('.modal_gallery');
 const btn_Add = document.getElementById('addFile');
 const modal_return = document.querySelector('.modal_return');
 const token = localStorage.getItem('token');
-
 const upload = document.querySelector('#upload');
-const submit_btn = document.querySelector('#submit');
 const addImageform = document.querySelector('#validate_form');
 const display = document.querySelector('.modal_upload-1');
+const submit_btn = document.getElementById('submit');
+let newWork = [];
 
-
-const openModal = btn.addEventListener('click', (e) => {
+const openModal = btn.addEventListener('click', (e) => { /* affiche la modale et crée la galerie de miniatures des travaux */      
     e.preventDefault();
     modal.style.display = 'block';
     generateThumbnails();
@@ -28,20 +25,6 @@ const openModal = btn.addEventListener('click', (e) => {
 );
 
 
-const closeBtn = function() {
-  Array.from(closes).forEach(close => close.addEventListener());
-}
-
-document.addEventListener('click',function(e) {
-
-  for(let i= 0; i< closes.length; i++) {
-
-    if(e.target === modal || e.target === closes[i] ) {
-      modal.style.display ='none';
-  };
-
-  }
-});
 
 
 
@@ -53,14 +36,14 @@ const generateThumbnails = async function() {
                         <i id="${work.id}" class="fa-solid fa-trash-can"></i>
                         <img id="${work.id}" src="${work.imageUrl}">
                         <p>éditer</p>
-                    </figure>`;
+                    </figure>`;           /* prépare le contenu de la galerie de miniatures et l'affiche dans le DOM */
                                        
     htmlContent += data;
     });
     modal_gal.innerHTML = htmlContent;
 }
   
-const focusedIn = modal_gal.addEventListener('focusin', (e)=> {
+const focusedIn = modal_gal.addEventListener('focusin', (e)=> { /* applique/retire un style à l'icône flèches lorsqu'une miniature est selectionnée */
    const arrowIcon = e.target.firstElementChild;
    if(e.target.id === arrowIcon.id ) { 
        arrowIcon.style.display = 'block';
@@ -77,7 +60,7 @@ const focusedOut = modal_gal.addEventListener('focusout', (e)=> {
     };
 });
 
-function setUploadUI() {
+function setUploadUI() {                          /* crée l'interface de chargement d'images */
   let classes = 'fa-regular fa-image'.split(' ');
   const fileIcon = document.createElement('i');
   fileIcon.classList.add(...classes);
@@ -92,9 +75,9 @@ function setUploadUI() {
 
 const addFile = btn_Add.addEventListener('click',function(e) {
     e.preventDefault();
-   modal_box_1.style.display = 'none';
-   modal_box_2.style.display = 'block';
-   modal_return.style.display = 'block';
+   modal_box_1.style.display = 'none';    /* affiche la fenêtre de chargement d'images et masque la galerie de miniatures */
+   modal_box_2.style.display = 'block';   /* réinitialise le conteneur de l'interface avant d'en afficher le contenu en appelant */
+   modal_return.style.display = 'block';  /* la fonction décrite ci-dessus */
    display.innerHTML='';
    setUploadUI();
 }
@@ -102,10 +85,10 @@ const addFile = btn_Add.addEventListener('click',function(e) {
    
 const deleteFile = modal_gal.addEventListener('click', async (e)=> {
   e.preventDefault;
-  if (e.target.classList.contains('fa-trash-can')) {
-    let id= e.target.id;
-    const token = localStorage.getItem('token');
-    const res = await fetch(`http://localhost:5678/api/works/${id}`, {
+  if (e.target.classList.contains('fa-trash-can')) {  /* si l'icône de suppression est cliquée on récupère son id qui correspond à celle */
+    let id= e.target.id;                              /* de l'image qu'on souhaite supprimer. A partir de la réponse du positive serveur */ 
+    const token = localStorage.getItem('token');      /* on supprime l'élèment parent conteneur de l'image */
+    const res = await fetch(`http://localhost:5678/api/works/${id}`, { 
        method: "DELETE",
        headers: {
               "Content-Type": "application/json",
@@ -121,11 +104,10 @@ const deleteFile = modal_gal.addEventListener('click', async (e)=> {
     });
 
 
-addImageform.addEventListener('change', (e) => {
-  e.preventDefault();
-  console.log('AddImageform',e);
-  let fileSize = upload.files[0].size;
-  const maxSize = 8 * 1024 * 1024;
+addImageform.addEventListener('change', (e) => { /* on donne une taille maximale au fichier à charger ainsi qu'une méthode filereader pour */
+  e.preventDefault();                            /* pouvoir le lire. On vérifie la taille du fichier et affiche un message à l'utilisateur */
+  let fileSize = upload.files[0].size;           /* en cas de dépassement de taille, si c ok on affiche la miniature. On rend le bouton */ 
+  const maxSize = 8 * 1024 * 1024;               /* cliquable, pour soumettre la demande. */
   let reader = new FileReader();
   reader.readAsDataURL(upload.files[0]);
     reader.addEventListener('load', (o) => {
@@ -138,30 +120,34 @@ addImageform.addEventListener('change', (e) => {
         });
   
   }); 
-     
-addImageform.addEventListener('submit', (e) => {
-e.preventDefault();
-const formData = new FormData(addImageform);  
-  fetch ('http://localhost:5678/api/works',{
-    method: "POST",
-    headers: {
-        "Accept": "application/json",
-        "Authorization": `Bearer ${token}`,
-    },
-    body: formData,
-      }).then(res => res.json())
-        .then(data => { 
-        works.push(data);
+
+
+
+
+
+addImageform.addEventListener('submit', async (e) => { /* on envoie les données du formulaire sous forme d'objet formdata et on ajoute */ 
+  e.preventDefault();                               /* au tableau works (la galerie principale) le nouvel élément renvoyé par le serveur */
+  const formData = new FormData(addImageform);      /* on réinitialise le formulaire, l'interface de chargement et on efface la miniature de preview */
+    const fetchNewWorks = fetch ('http://localhost:5678/api/works',{
+      method: "POST",
+      headers: {
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`,
+      },
+      body: formData,
+        });
+        const response = await fetchNewWorks;
+        newWork = await response.json();
+        works.push(newWork);
         addImageform.reset();
         display.innerHTML='';
-        setUploadUI();
-        
-        })
-      
-      .catch(error => console.log(error));   
-} );
+        setUploadUI();       
+  });
 
- const modal_previous = modal_return.addEventListener('click',function(e) {
+
+
+
+ const modal_previous = modal_return.addEventListener('click', async function(e) { /* flèche retour: affiche et cache les fenêtres */
   e.preventDefault();
   modal_box_2.style.display = 'none';
   modal_box_1.style.display = 'block';
@@ -171,39 +157,16 @@ const formData = new FormData(addImageform);
 
 
 
+document.addEventListener('click',function(e) {  
+                                                   
+  for(let i= 0; i< closes.length; i++) {         
 
+    if(e.target === modal || e.target === closes[i] ) {  
+      modal.style.display ='none';            
+       };
 
+    }
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
 
 
