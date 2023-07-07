@@ -36,6 +36,7 @@ generateWorks();
 async function generateButtons() {
    
     const categories = await fetchCats();
+
     let newEntry = { "id": 0,        /* crée une cat:'tous les projets' à categories*/
                 "name": "Tous"
                 };
@@ -63,6 +64,7 @@ generateButtons();
 const buttonClicked = (e) => { /*détecte l'evènement boutons cliqué */
     const btns = document.querySelectorAll('.btn');
     let value = e.target.id; /*on stocke la valeur de l'id de la cible */
+    console.log('e.target.id',e.target.id);
     let currentBtn = e.target;/*on stocke la cible */
     filterWorks(value);
     btns.forEach(btn => {   /*supprime le mode selectionné sur tout autre bouton qui n'est pas le bouton actif*/

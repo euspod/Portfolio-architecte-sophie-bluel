@@ -14,6 +14,7 @@ const upload = document.querySelector('#upload');
 const addImageform = document.querySelector('#validate_form');
 const display = document.querySelector('.modal_upload-1');
 const submit_btn = document.getElementById('submit');
+const submitTitle = document.getElementById('title');
 let newWork = [];
 
 const openModal = btn.addEventListener('click', (e) => { /* affiche la modale et crée la galerie de miniatures des travaux */      
@@ -79,6 +80,7 @@ const addFile = btn_Add.addEventListener('click',function(e) {
    modal_box_2.style.display = 'block';   /* réinitialise le conteneur de l'interface avant d'en afficher le contenu en appelant */
    modal_return.style.display = 'block';  /* la fonction décrite ci-dessus */
    display.innerHTML='';
+   submit_btn.setAttribute('disabled','');
    setUploadUI();
 }
 );
@@ -106,20 +108,33 @@ const deleteFile = modal_gal.addEventListener('click', async (e)=> {
 
 addImageform.addEventListener('change', (e) => { /* on donne une taille maximale au fichier à charger ainsi qu'une méthode filereader pour */
   e.preventDefault();                            /* pouvoir le lire. On vérifie la taille du fichier et affiche un message à l'utilisateur */
-  let fileSize = upload.files[0].size;           /* en cas de dépassement de taille, si c ok on affiche la miniature. On rend le bouton */ 
-  const maxSize = 8 * 1024 * 1024;               /* cliquable, pour soumettre la demande. */
-  let reader = new FileReader();
+  let fileSize = upload.files[0].size; 
+  let category = document.getElementById('category');  
+  let file = upload.files[0];
+  let title = document.getElementById('title');              /* en cas de dépassement de taille, si c ok on affiche la miniature. */ 
+  const maxSize = 4 * 1024 * 1024;                           /* On vérifie que les options sont selectionnées */
+  let reader = new FileReader();                             /*  On rend le bouton cliquable, pour soumettre la demande. */
   reader.readAsDataURL(upload.files[0]);
     reader.addEventListener('load', (o) => {
-          if(fileSize > maxSize) {
-            alert('Ce fichier est trop volumineux.')
-          }else{
-            display.innerHTML = `<img src=${reader.result} alt=''/>`;
+     o.preventDefault();
+      try 
+        {
+          if(fileSize > maxSize) throw `Fichier trop volumineux, veuillez choisir un fichier d'une taille de 4mo maximum.`;
+          display.innerHTML = `<img src=${reader.result} alt=''/>`;
+          submit_btn.setAttribute('disabled','');
+          while ( title.value === ''&& file.index !== null && category.value !=='') throw 'Veuillez indiquer un titre';
+          while ( title.value !== ''&& file.index !== null && category.value =='') throw 'Choisissez une catégorie.';
+          if( title.value !== ''&& file.index !== null && category.value !=='') {
+
             submit_btn.removeAttribute('disabled');
           }
-        });
-  
-  }); 
+        }catch(error)
+        {
+          alert(error);
+        
+        };      
+      });
+});
 
 
 
@@ -147,22 +162,30 @@ addImageform.addEventListener('submit', async (e) => { /* on envoie les données
 
 
 
- const modal_previous = modal_return.addEventListener('click', async function(e) { /* flèche retour: affiche et cache les fenêtres */
+ const modal_previous = modal_return.addEventListener('click', async function(e) { /* flèche retour: affiche et cache les fenêtres,reset form */
   e.preventDefault();
   modal_box_2.style.display = 'none';
   modal_box_1.style.display = 'block';
+  addImageform.reset();
+  upload.files.value = "";
   generateThumbnails();
 });
 
 
 
 
-document.addEventListener('click',function(e) {  
-                                                   
+document.addEventListener('click',function(e) {    /* détecte les évènement de click sur la modale et boutons FileSystemDirectoryReader, reset form */
+                                                   /* ferme la fenêtre */
   for(let i= 0; i< closes.length; i++) {         
 
     if(e.target === modal || e.target === closes[i] ) {  
-      modal.style.display ='none';            
+      modal.style.display ='none';    
+      addImageform.reset();
+      display.innerHTML ='';
+      setUploadUI();       
+
+  console.log('test',upload.files.value)
+
        };
 
     }

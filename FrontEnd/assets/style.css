@@ -410,7 +410,7 @@ footer nav ul {
 }
 
 
-#modal_title {
+#modal_title-1 {
 	color:black;
 	font-weight: 100;
 	font-family:'Work Sans';
@@ -533,6 +533,14 @@ border: 0;
 	border-radius: 12px;
 	position: relative;
 	box-sizing: border-box;
+}
+#modal_title-2 {
+	color:black;
+	font-weight: 100;
+	font-family:'Work Sans';
+	font-size: 35px;
+	padding-top: 5px;
+	margin-bottom: 50px;
 }
 
 .modal_footer #submit {
