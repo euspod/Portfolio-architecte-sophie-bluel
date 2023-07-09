@@ -21,4 +21,4 @@ async function fetchCats () {
 
 
  
- export {fetchWorks, fetchCats,works};
+ export {fetchWorks, fetchCats,works,cats};

@@ -1,5 +1,6 @@
 
-import {works } from "./fetches.js";
+import {works,cats } from "./fetches.js";
+import {generateWorks} from "./works.js";
 
 const modal = document.getElementById('modal');
 const btn = document.getElementById('btn_proj');
@@ -15,9 +16,13 @@ const addImageform = document.querySelector('#validate_form');
 const display = document.querySelector('.modal_upload-1');
 const submit_btn = document.getElementById('submit');
 const submitTitle = document.getElementById('title');
+const formSelectCat = document.getElementById('category');
 let newWork = [];
 
-const openModal = btn.addEventListener('click', (e) => { /* affiche la modale et crée la galerie de miniatures des travaux */      
+
+/* affiche la modale et crée la galerie de miniatures des travaux */  
+
+btn.addEventListener('click', (e) => {     
     e.preventDefault();
     modal.style.display = 'block';
     generateThumbnails();
@@ -26,8 +31,7 @@ const openModal = btn.addEventListener('click', (e) => { /* affiche la modale et
 );
 
 
-
-
+ /* prépare le contenu de la galerie de miniatures et l'affiche dans le DOM */
 
 const generateThumbnails = async function() {
     let htmlContent = '';
@@ -37,14 +41,19 @@ const generateThumbnails = async function() {
                         <i id="${work.id}" class="fa-solid fa-trash-can"></i>
                         <img id="${work.id}" src="${work.imageUrl}">
                         <p>éditer</p>
-                    </figure>`;           /* prépare le contenu de la galerie de miniatures et l'affiche dans le DOM */
+                    </figure>`;          
                                        
     htmlContent += data;
     });
     modal_gal.innerHTML = htmlContent;
 }
-  
-const focusedIn = modal_gal.addEventListener('focusin', (e)=> { /* applique/retire un style à l'icône flèches lorsqu'une miniature est selectionnée */
+
+
+
+ 
+/* applique/retire un style à l'icône flèches lorsqu'une miniature est selectionnée */
+
+modal_gal.addEventListener('focusin', (e)=> { 
    const arrowIcon = e.target.firstElementChild;
    if(e.target.id === arrowIcon.id ) { 
        arrowIcon.style.display = 'block';
@@ -53,7 +62,7 @@ const focusedIn = modal_gal.addEventListener('focusin', (e)=> { /* applique/reti
     
 });
 
-const focusedOut = modal_gal.addEventListener('focusout', (e)=> {
+modal_gal.addEventListener('focusout', (e)=> {
    const arrowIcon = e.target.firstElementChild;
    if(e.target.id === arrowIcon.id ) { 
        arrowIcon.style.display = 'none';
@@ -61,7 +70,11 @@ const focusedOut = modal_gal.addEventListener('focusout', (e)=> {
     };
 });
 
-function setUploadUI() {                          /* crée l'interface de chargement d'images */
+
+
+/* crée l'interface de chargement d'images */
+
+function setUploadUI() {                          
   let classes = 'fa-regular fa-image'.split(' ');
   const fileIcon = document.createElement('i');
   fileIcon.classList.add(...classes);
@@ -74,22 +87,49 @@ function setUploadUI() {                          /* crée l'interface de charge
   display.append(fileIcon,labelAddImage,fileIconP);
 }
 
-const addFile = btn_Add.addEventListener('click',function(e) {
+
+/* crée dynamiquement les options select du formulaire */
+
+const generateSelectOptions = function() {
+  let newOptions = {};
+  newOptions = `<option label="&nbsp;"></option>`
+  cats.splice(0, 1, '&nbsp;');
+
+    for(let i = 1 ; i < (cats.length ); i++){
+      let option = `<option value="${cats[i].id}">${cats[i].name}</option>`;
+      newOptions += option;
+    }
+  formSelectCat.innerHTML = newOptions;
+};
+
+
+/* affiche la fenêtre de chargement d'images et masque la galerie de miniatures */
+/* réinitialise le conteneur de l'interface avant d'en afficher le contenu en appelant */
+/* la fonction décrite ci-dessus */
+
+btn_Add.addEventListener('click',function(e) {
     e.preventDefault();
-   modal_box_1.style.display = 'none';    /* affiche la fenêtre de chargement d'images et masque la galerie de miniatures */
-   modal_box_2.style.display = 'block';   /* réinitialise le conteneur de l'interface avant d'en afficher le contenu en appelant */
-   modal_return.style.display = 'block';  /* la fonction décrite ci-dessus */
+   modal_box_1.style.display = 'none';    
+   modal_box_2.style.display = 'block';   
+   modal_return.style.display = 'block';  
    display.innerHTML='';
    submit_btn.setAttribute('disabled','');
    setUploadUI();
+   generateSelectOptions();
 }
 );
-   
-const deleteFile = modal_gal.addEventListener('click', async (e)=> {
+
+
+
+/* si l'icône de suppression est cliquée on récupère son id qui correspond à celle 
+ de l'image qu'on souhaite supprimer. A partir de la réponse du positive serveur 
+ on supprime l'élèment parent conteneur de l'image, on rafraichit les travaux */   
+
+modal_gal.addEventListener('click', async (e)=> {
   e.preventDefault;
-  if (e.target.classList.contains('fa-trash-can')) {  /* si l'icône de suppression est cliquée on récupère son id qui correspond à celle */
-    let id= e.target.id;                              /* de l'image qu'on souhaite supprimer. A partir de la réponse du positive serveur */ 
-    const token = localStorage.getItem('token');      /* on supprime l'élèment parent conteneur de l'image */
+  if (e.target.classList.contains('fa-trash-can')) {  
+    let id = e.target.id;                                                    
+    const token = localStorage.getItem('token');      
     const res = await fetch(`http://localhost:5678/api/works/${id}`, { 
        method: "DELETE",
        headers: {
@@ -99,21 +139,28 @@ const deleteFile = modal_gal.addEventListener('click', async (e)=> {
          }});
          if (res.ok) {     
              e.target.parentElement.remove();
-         }
-        
-    }
+            generateWorks();
+
+         }};
     
     });
 
 
-addImageform.addEventListener('change', (e) => { /* on donne une taille maximale au fichier à charger ainsi qu'une méthode filereader pour */
-  e.preventDefault();                            /* pouvoir le lire. On vérifie la taille du fichier et affiche un message à l'utilisateur */
+
+/* on donne une taille maximale au fichier à charger ainsi qu'une méthode filereader pour */
+/*  pouvoir le lire. On vérifie la taille du fichier et affiche un message à l'utilisateur 
+ en cas de dépassement de taille, si c ok on affiche la miniature. 
+ On vérifie que les options sont selectionnées 
+ On rend le bouton cliquable, pour soumettre la demande.  */
+
+addImageform.addEventListener('change', (e) => { 
+  e.preventDefault();                            
   let fileSize = upload.files[0].size; 
   let category = document.getElementById('category');  
   let file = upload.files[0];
-  let title = document.getElementById('title');              /* en cas de dépassement de taille, si c ok on affiche la miniature. */ 
-  const maxSize = 4 * 1024 * 1024;                           /* On vérifie que les options sont selectionnées */
-  let reader = new FileReader();                             /*  On rend le bouton cliquable, pour soumettre la demande. */
+  let title = document.getElementById('title');              
+  const maxSize = 4 * 1024 * 1024;                           
+  let reader = new FileReader();                             
   reader.readAsDataURL(upload.files[0]);
     reader.addEventListener('load', (o) => {
      o.preventDefault();
@@ -139,10 +186,13 @@ addImageform.addEventListener('change', (e) => { /* on donne une taille maximale
 
 
 
+/* on envoie les données du formulaire sous forme d'objet formdata et on ajoute 
+au tableau works (la galerie principale) le nouvel élément renvoyé par le serveur, on rafraichit les travaux
+on réinitialise le formulaire, l'interface de chargement et on efface la miniature de preview */
 
-addImageform.addEventListener('submit', async (e) => { /* on envoie les données du formulaire sous forme d'objet formdata et on ajoute */ 
-  e.preventDefault();                               /* au tableau works (la galerie principale) le nouvel élément renvoyé par le serveur */
-  const formData = new FormData(addImageform);      /* on réinitialise le formulaire, l'interface de chargement et on efface la miniature de preview */
+addImageform.addEventListener('submit', async (e) => {  
+  e.preventDefault();                               
+  const formData = new FormData(addImageform);      
     const fetchNewWorks = fetch ('http://localhost:5678/api/works',{
       method: "POST",
       headers: {
@@ -154,15 +204,16 @@ addImageform.addEventListener('submit', async (e) => { /* on envoie les données
         const response = await fetchNewWorks;
         newWork = await response.json();
         works.push(newWork);
+        generateWorks();
         addImageform.reset();
         display.innerHTML='';
         setUploadUI();       
   });
 
 
+/* flèche retour: affiche et cache les fenêtres,reset form */
 
-
- const modal_previous = modal_return.addEventListener('click', async function(e) { /* flèche retour: affiche et cache les fenêtres,reset form */
+ modal_return.addEventListener('click', async function(e) { 
   e.preventDefault();
   modal_box_2.style.display = 'none';
   modal_box_1.style.display = 'block';
@@ -172,10 +223,11 @@ addImageform.addEventListener('submit', async (e) => { /* on envoie les données
 });
 
 
+/* détecte les évènement de click sur la modale et boutons; reset form */
+/* ferme la fenêtre */
 
-
-document.addEventListener('click',function(e) {    /* détecte les évènement de click sur la modale et boutons FileSystemDirectoryReader, reset form */
-                                                   /* ferme la fenêtre */
+document.addEventListener('click',function(e) {    
+                                                   
   for(let i= 0; i< closes.length; i++) {         
 
     if(e.target === modal || e.target === closes[i] ) {  
@@ -184,7 +236,7 @@ document.addEventListener('click',function(e) {    /* détecte les évènement d
       display.innerHTML ='';
       setUploadUI();       
 
-  console.log('test',upload.files.value)
+  
 
        };
 
